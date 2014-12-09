@@ -12,14 +12,24 @@ function mutate(ElementClass /* ...mutators */) {
   var originalRender = ElementClass.type.prototype.render;
 
   ElementClass.type.prototype.render = function() {
-    var renderedElement = originalRender.call(this);
+    var el = this;
 
-    return mutators.reduce(function(element, mutator) {
-        mutator.call(element);
-        return element;
-      },
-      renderedElement
-    );
+    // Prerenders
+    mutators.filter(function(mutator) {
+      return mutator.preRender;
+    }).map(function(mutator) {
+      return mutator.preRender;
+    }).forEach(function(mutator) {
+      mutator(el);
+    });
+
+    var renderedElement = originalRender.call(el);
+
+    mutators.forEach(function(mutator) {
+      renderedElement = mutator.call(renderedElement);
+    });
+
+    return renderedElement;
   }
 
   return ElementClass;
