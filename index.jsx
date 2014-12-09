@@ -9,20 +9,20 @@ import * as React from 'react';
   */
 function mutate(ElementClass /* ...mutators */) {
   var mutators = Array.from(arguments).slice(1);
-  return React.createClass({
-    render: function() {
-      var renderedElement = (
-        <ElementClass {...this.props} />
-      ).type.prototype.render.call(this);
+  var originalRender = ElementClass.type.prototype.render;
 
-      return mutators.reduce(function(element, mutator) {
-          mutator.call(element);
-          return element;
-        },
-        renderedElement 
-      );
-    },
-  });
+  ElementClass.type.prototype.render = function() {
+    var renderedElement = originalRender.call(this);
+
+    return mutators.reduce(function(element, mutator) {
+        mutator.call(element);
+        return element;
+      },
+      renderedElement
+    );
+  }
+
+  return ElementClass;
 }
 
 function elementIsType(element, type) {
@@ -39,6 +39,10 @@ function elementIsType(element, type) {
 
 function query(element, type) {
   var results = [];
+
+  if (!element) {
+    return results;
+  }
 
   if (elementIsType(element, type)) {
     results.push(element);
