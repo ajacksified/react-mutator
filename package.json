@@ -1,6 +1,6 @@
 {
   "name": "react-mutator",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Query and mutate react elements at render time",
   "main": "index.jsx",
   "scripts": {
@@ -22,6 +22,6 @@
   },
   "homepage": "https://github.com/ajacksified/react-mutate",
   "dependencies": {
-    "react": "^0.12.1"
+    "react": "^0.12.2"
   }
 }
