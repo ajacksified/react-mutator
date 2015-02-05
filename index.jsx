@@ -9,9 +9,9 @@ import * as React from 'react';
   */
 function mutate(ElementClass /* ...mutators */) {
   var mutators = Array.from(arguments).slice(1);
-  var originalRender = ElementClass.type.prototype.render;
+  var originalRender = ElementClass.prototype.render;
 
-  ElementClass.type.prototype.render = function() {
+  ElementClass.prototype.render = function() {
     var el = this;
 
     // Prerenders
